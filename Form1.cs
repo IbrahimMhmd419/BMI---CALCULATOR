@@ -33,6 +33,7 @@ namespace BMI_CALCULATOR
                 _user.CalculateBmI();
                 Users.Add(_user);
                 MessageBox.Show($"Hello {_user.Name}\n Your BMI Is:{_user.BMI} \n{_user.Category}");
+                SaveUserInfo(_user.Name, _user.HeightCm, _user.Weight, _user.BMI);
             }
             catch (Exception ex)
             {
@@ -47,5 +48,24 @@ namespace BMI_CALCULATOR
             WeightTextBox.Clear();
             HeightTextBox.Clear();
         }
+             private void SaveUserInfo(string name, double height, double weight, double bmi)
+ {
+     try
+     {
+         // Save the file to your Documents folder
+         string folder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+         string path = Path.Combine(folder, "save.txt");
+
+         string data = $"{DateTime.Now}: Name: {name}, Height: {height}, Weight: {weight}, BMI: {bmi:F2}";
+         File.AppendAllText(path, data + Environment.NewLine);
+
+         MessageBox.Show("User info saved successfully!");
+     }
+     catch (Exception ex)
+     {
+         MessageBox.Show("Failed to save user info: " + ex.Message);
+     }
+ }
+        
     }
 }
